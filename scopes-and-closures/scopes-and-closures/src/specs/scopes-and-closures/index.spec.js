@@ -35,19 +35,16 @@ describe('functional scope - scopes and closures', () => {
 
         let MyMathLibrary = {
             doMath: function (arg) {
+                function addSix(arg) {
+                    return arg + 6;
+                }
+                function reduceFive(arg) {
+                    return arg - 5;
+                }
                 MyNumber = addSix(arg); // WARNING: Do not modify this line!
                 MyNumber = reduceFive(MyNumber)
             }
         }
-
-        function addSix(arg) {
-            return arg + 6;
-        }
-
-        function reduceFive(arg) {
-            return arg - 5;
-        }
-
 
         spyOnDoMath = jest.spyOn(MyMathLibrary, "doMath");
 
@@ -88,7 +85,9 @@ describe('functional scope - scopes and closures', () => {
 
         spyOnDoMath = jest.spyOn(MyMathLibrary, "doMath");
 
-        doSomeMoreMath();
+        (() => {
+            doSomeMoreMath();
+        })()
 
         expect(spyOnDoMath).not.toHaveBeenCalled();
 
